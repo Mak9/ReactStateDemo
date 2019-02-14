@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(){
+    super()
+    this.state={setup:null,punchline:null,loading:false}
+    window.fetch('https://official-joke-api.appspot.com/jokes/random')
+    .then(response=>response.json()).then(data=>this.setState({setup:data.setup,punchline:data.punchline}))
+  }
+  clickhandle(){
+    this.setState({loading:true})
+
+     window.fetch('https://official-joke-api.appspot.com/jokes/random')
+    .then(response=>response.json()).then(data=>this.setState({setup:data.setup,punchline:data.punchline,loading:false}))
+    
+    
+    
+  }
   render() {
+    
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+      <center><h1>Jokes Pandora</h1>
+      <div className="App" onClick={()=>{this.clickhandle()}}>
+    {this.state.loading?<p>Loading...</p>:<div><p>{this.state.setup}</p>
+    <p>{this.state.punchline}</p></div>}
+    
+      </div>
+      </center>
       </div>
     );
   }
